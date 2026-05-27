@@ -5,11 +5,27 @@ import 'package:go_router/go_router.dart';
 import '../../../providers/exam_provider.dart';
 import '../../../domain/models/driving_exercise.dart';
 
-class ExamSessionScreen extends ConsumerWidget {
+class ExamSessionScreen extends ConsumerStatefulWidget {
   const ExamSessionScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ExamSessionScreen> createState() => _ExamSessionScreenState();
+}
+
+class _ExamSessionScreenState extends ConsumerState<ExamSessionScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final state = ref.read(examProvider);
+      if (state is AsyncLoading) {
+        ref.read(examProvider.notifier).startExam();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final examAsync = ref.watch(examProvider);
 
     return Scaffold(

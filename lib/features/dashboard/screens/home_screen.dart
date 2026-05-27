@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/lessons_provider.dart';
+import '../../../providers/auth_provider.dart';
+import '../../../providers/supabase_provider.dart';
 import '../../../data/local/hive_service.dart';
 import '../widgets/streak_card.dart';
 import '../widgets/xp_bar.dart';
@@ -25,8 +27,12 @@ class HomeScreen extends ConsumerWidget {
           if (profile == null) {
             return const Center(child: Text('Not logged in'));
           }
-          // Schedule reminders after frame (fire-and-forget, non-critical)
+          // Flush offline progress queue and schedule reminders after frame (fire-and-forget, non-critical)
           WidgetsBinding.instance.addPostFrameCallback((_) {
+            final user = ref.read(currentUserProvider);
+            if (user != null) {
+              ref.read(supabaseServiceProvider).flushProgressQueue(user.id);
+            }
             NotificationScheduler.scheduleRemindersIfNeeded(profile.lastActive);
           });
           return ListView(

@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'constants.dart';
 import 'app.dart';
+import 'data/local/hive_service.dart';
 import 'shared/notifications.dart';
 
 void main() async {
@@ -16,6 +17,8 @@ void main() async {
     url: AppConstants.supabaseUrl,
     anonKey: AppConstants.supabaseAnonKey,
   );
+
+  await HiveService.init();
 
   tz.initializeTimeZones();
   await NotificationScheduler.init();
