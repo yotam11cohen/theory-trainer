@@ -6,6 +6,7 @@ import '../../../providers/lessons_provider.dart';
 import '../../../data/local/hive_service.dart';
 import '../widgets/streak_card.dart';
 import '../widgets/xp_bar.dart';
+import '../../../shared/notifications.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -24,6 +25,10 @@ class HomeScreen extends ConsumerWidget {
           if (profile == null) {
             return const Center(child: Text('Not logged in'));
           }
+          // Schedule reminders after frame (fire-and-forget, non-critical)
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            NotificationScheduler.scheduleRemindersIfNeeded(profile.lastActive);
+          });
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [

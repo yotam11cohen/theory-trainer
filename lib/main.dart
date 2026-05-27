@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'constants.dart';
 import 'app.dart';
+import 'shared/notifications.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +18,7 @@ void main() async {
   );
 
   tz.initializeTimeZones();
+  await NotificationScheduler.init();
 
   runApp(const ProviderScope(child: ClearedApp()));
 }
