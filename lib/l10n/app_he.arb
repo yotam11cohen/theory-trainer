@@ -1,0 +1,48 @@
+{
+  "@@locale": "he",
+  "appTitle": "קלירד — תאוריה",
+  "tabHome": "בית",
+  "tabLearn": "לימוד",
+  "tabExam": "מבחן",
+  "tabProfile": "פרופיל",
+  "loginTitle": "ברוך הבא",
+  "loginEmail": "אימייל",
+  "loginPassword": "סיסמה",
+  "loginButton": "התחבר",
+  "loginGoogle": "המשך עם Google",
+  "registerTitle": "צור חשבון",
+  "registerButton": "הרשמה",
+  "logoutButton": "התנתק",
+  "streakLabel": "רצף {days} ימים",
+  "@streakLabel": { "placeholders": { "days": { "type": "int" } } },
+  "xpLabel": "{xp} נקודות",
+  "@xpLabel": { "placeholders": { "xp": { "type": "int" } } },
+  "levelLabel": "רמה {level}",
+  "@levelLabel": { "placeholders": { "level": { "type": "int" } } },
+  "continueStudying": "המשך ללמוד",
+  "categoryProgress": "{pct}% הושלם",
+  "@categoryProgress": { "placeholders": { "pct": { "type": "int" } } },
+  "examTitle": "מבחן תאוריה",
+  "examStart": "התחל מבחן",
+  "examQuestion": "שאלה {n} מתוך {total}",
+  "@examQuestion": {
+    "placeholders": {
+      "n": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "examPassed": "עברת!",
+  "examFailed": "עוד לא",
+  "examScore": "{score}/{total}",
+  "@examScore": {
+    "placeholders": {
+      "score": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "retryExam": "נסה שוב",
+  "notificationsLabel": "תזכורות לימוד",
+  "achievementsTitle": "הישגים",
+  "errorGeneric": "משהו השתבש. נסה שוב.",
+  "loading": "טוען..."
+}

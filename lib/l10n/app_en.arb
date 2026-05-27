@@ -1,0 +1,48 @@
+{
+  "@@locale": "en",
+  "appTitle": "Cleared — Theory",
+  "tabHome": "Home",
+  "tabLearn": "Learn",
+  "tabExam": "Exam",
+  "tabProfile": "Profile",
+  "loginTitle": "Welcome Back",
+  "loginEmail": "Email",
+  "loginPassword": "Password",
+  "loginButton": "Sign In",
+  "loginGoogle": "Continue with Google",
+  "registerTitle": "Create Account",
+  "registerButton": "Sign Up",
+  "logoutButton": "Sign Out",
+  "streakLabel": "{days} day streak",
+  "@streakLabel": { "placeholders": { "days": { "type": "int" } } },
+  "xpLabel": "{xp} XP",
+  "@xpLabel": { "placeholders": { "xp": { "type": "int" } } },
+  "levelLabel": "Level {level}",
+  "@levelLabel": { "placeholders": { "level": { "type": "int" } } },
+  "continueStudying": "Continue Studying",
+  "categoryProgress": "{pct}% complete",
+  "@categoryProgress": { "placeholders": { "pct": { "type": "int" } } },
+  "examTitle": "Theory Exam",
+  "examStart": "Start Exam",
+  "examQuestion": "Question {n} of {total}",
+  "@examQuestion": {
+    "placeholders": {
+      "n": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "examPassed": "Passed!",
+  "examFailed": "Not Yet",
+  "examScore": "{score}/{total}",
+  "@examScore": {
+    "placeholders": {
+      "score": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "retryExam": "Try Again",
+  "notificationsLabel": "Study Reminders",
+  "achievementsTitle": "Achievements",
+  "errorGeneric": "Something went wrong. Please try again.",
+  "loading": "Loading..."
+}
