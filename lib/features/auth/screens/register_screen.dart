@@ -54,8 +54,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             OAuthProvider.google,
             redirectTo: 'com.cleared.driving://login-callback',
           );
+    } on AuthException catch (e) {
+      setState(() => _error = e.message);
     } catch (e) {
-      setState(() => _error = e.toString());
+      setState(() => _error = 'Sign-in failed. Please try again.');
     } finally {
       if (mounted) setState(() => _loading = false);
     }
