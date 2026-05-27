@@ -21,7 +21,7 @@ class ExamSessionScreen extends ConsumerWidget {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               context.pushReplacement('/app/exam/result');
             });
-            return const SizedBox();
+            return const Center(child: CircularProgressIndicator());
           }
           final q = state.questions[state.currentIndex];
           return SafeArea(
@@ -50,10 +50,10 @@ class _QuestionCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final c = exercise.content;
-    final options = List<String>.from(c['options'] as List? ?? []);
-    final question = c['question'] as String? ?? c['text'] as String? ?? '';
-    final imageUrl = c['image_url'] as String?;
+    final content = exercise.content;
+    final options = List<String>.from(content['options'] as List? ?? []);
+    final question = content['question'] as String? ?? content['text'] as String? ?? '';
+    final imageUrl = content['image_url'] as String?;
 
     return Padding(
       padding: const EdgeInsets.all(16),

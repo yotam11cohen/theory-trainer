@@ -52,6 +52,7 @@ class ExamNotifier extends StateNotifier<AsyncValue<ExamState>> {
   void answer(int optionIndex) {
     final current = state.valueOrNull;
     if (current == null || current.submitted) return;
+    if (current.answers.containsKey(current.currentIndex)) return;
     final newAnswers = Map<int, int>.from(current.answers)
       ..[current.currentIndex] = optionIndex;
     final nextIndex = current.currentIndex + 1;
