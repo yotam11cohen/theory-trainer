@@ -9,8 +9,8 @@ abstract class HiveService {
 
   static Future<void> init() async {
     await Hive.initFlutter();
-    Hive.registerAdapter(ProgressEventAdapter());
-    Hive.registerAdapter(UserCacheAdapter());
+    if (!Hive.isAdapterRegistered(3)) Hive.registerAdapter(ProgressEventAdapter());
+    if (!Hive.isAdapterRegistered(2)) Hive.registerAdapter(UserCacheAdapter());
     await Hive.openBox<ProgressEvent>(_progressQueueBox);
     await Hive.openBox<UserCache>(_userCacheBox);
     await Hive.openBox<String>(_completedLessonsBox);
