@@ -21,7 +21,7 @@ class Achievement {
         description: json['description'] as String,
         icon: json['icon'] as String,
         earnedAt: json['earned_at'] != null
-            ? DateTime.tryParse(json['earned_at'] as String)
+            ? DateTime.parse(json['earned_at'] as String)
             : null,
       );
 }

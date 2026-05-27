@@ -16,9 +16,10 @@ abstract class XpCalculator {
   }
 
   static double progressToNext(int totalXp, int level) {
+    if (level < 1) return 0.0;
     if (level >= _thresholds.length) return 1.0;
     final current = _thresholds[level - 1];
     final next = _thresholds[level];
-    return (totalXp - current) / (next - current);
+    return ((totalXp - current) / (next - current)).clamp(0.0, 1.0);
   }
 }

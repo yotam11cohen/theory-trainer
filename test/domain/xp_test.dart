@@ -14,4 +14,17 @@ void main() {
     test('nextLevelXp at level 1 is 500', () => expect(XpCalculator.nextThreshold(1), 500));
     test('nextLevelXp at level 5 is null', () => expect(XpCalculator.nextThreshold(5), null));
   });
+
+  group('XpCalculator.progressToNext', () {
+    test('returns 0.0 for level 0 (guard)', () =>
+        expect(XpCalculator.progressToNext(0, 0), 0.0));
+    test('returns 0.5 mid-level-1 (250 xp)', () =>
+        expect(XpCalculator.progressToNext(250, 1), 0.5));
+    test('returns 1.0 at exact level-2 threshold', () =>
+        expect(XpCalculator.progressToNext(500, 1), 1.0));
+    test('returns 1.0 for max level', () =>
+        expect(XpCalculator.progressToNext(9000, 5), 1.0));
+    test('clamps to 0.0 on inconsistent inputs', () =>
+        expect(XpCalculator.progressToNext(100, 3), 0.0));
+  });
 }

@@ -27,16 +27,18 @@ class UserProfile {
         level: json['level'] as int? ?? 1,
         streakCount: json['streak_count'] as int? ?? 0,
         lastActive: json['last_active'] != null
-            ? DateTime.tryParse(json['last_active'] as String)
+            ? DateTime.parse(json['last_active'] as String)
             : null,
         notificationsEnabled: json['notifications_enabled'] as bool? ?? true,
       );
+
+  static const _unset = Object();
 
   UserProfile copyWith({
     int? totalXp,
     int? level,
     int? streakCount,
-    DateTime? lastActive,
+    Object? lastActive = _unset,
     bool? notificationsEnabled,
   }) =>
       UserProfile(
@@ -46,7 +48,9 @@ class UserProfile {
         totalXp: totalXp ?? this.totalXp,
         level: level ?? this.level,
         streakCount: streakCount ?? this.streakCount,
-        lastActive: lastActive ?? this.lastActive,
+        lastActive: identical(lastActive, _unset)
+            ? this.lastActive
+            : lastActive as DateTime?,
         notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       );
 }

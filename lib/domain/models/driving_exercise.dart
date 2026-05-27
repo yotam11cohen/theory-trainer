@@ -24,7 +24,7 @@ class DrivingExercise {
       'listen_choose' => ExerciseType.listenChoose,
       'complete_phrase' => ExerciseType.completePhrase,
       'image_question' => ExerciseType.imageQuestion,
-      _ => ExerciseType.vocabulary,
+      _ => throw ArgumentError('Unknown exercise type: $typeStr'),
     };
     return DrivingExercise(
       id: json['id'] as String,
