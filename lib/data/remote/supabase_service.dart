@@ -159,4 +159,8 @@ class SupabaseService {
         .from('users')
         .update({'notifications_enabled': enabled}).eq('id', userId);
   }
+
+  Future<void> signOut() async {
+    await _client.auth.signOut();
+  }
 }

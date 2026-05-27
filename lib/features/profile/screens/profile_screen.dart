@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/auth_provider.dart';
-import '../../../providers/supabase_provider.dart';
+import '../../../providers/supabase_provider.dart' show supabaseServiceProvider;
 import '../../../domain/xp.dart';
 import '../widgets/achievement_badge.dart';
 
@@ -22,7 +22,7 @@ class ProfileScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
-              await ref.read(supabaseClientProvider).auth.signOut();
+              await ref.read(supabaseServiceProvider).signOut();
               if (context.mounted) context.go('/login');
             },
           ),
@@ -32,7 +32,12 @@ class ProfileScreen extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Error: $e')),
         data: (profile) {
-          if (profile == null) return const SizedBox();
+          if (profile == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (context.mounted) context.go('/login');
+            });
+            return const Center(child: CircularProgressIndicator());
+          }
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
@@ -68,10 +73,18 @@ class ProfileScreen extends ConsumerWidget {
                     onChanged: (val) async {
                       final user = ref.read(currentUserProvider);
                       if (user == null) return;
-                      await ref
-                          .read(supabaseServiceProvider)
-                          .updateNotificationPreference(user.id, val);
-                      ref.invalidate(userProfileProvider);
+                      try {
+                        await ref
+                            .read(supabaseServiceProvider)
+                            .updateNotificationPreference(user.id, val);
+                        ref.invalidate(userProfileProvider);
+                      } catch (_) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Failed to update notification preference')),
+                          );
+                        }
+                      }
                     },
                   ),
                 ],
