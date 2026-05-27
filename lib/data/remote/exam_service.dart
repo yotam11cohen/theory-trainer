@@ -35,6 +35,8 @@ abstract class ExamService {
     }
 
     selected.shuffle(rng);
+    assert(selected.length >= total || pool.length < total,
+        'buildExam produced only ${selected.length} questions from a ${pool.length}-item pool');
     return selected.take(total).toList();
   }
 }

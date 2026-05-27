@@ -20,6 +20,13 @@ void main() {
   test('buildExam throws StateError when pool is empty', () {
     expect(() => ExamService.buildExam([]), throwsStateError);
   });
+
+  test('buildExam returns all questions when pool has fewer than 30', () {
+    final pool = _makePool({'signs': 5, 'safe_driving': 3});
+    final exam = ExamService.buildExam(pool);
+    expect(exam.length, lessThanOrEqualTo(30));
+    expect(exam.map((e) => e.id).toSet().length, exam.length); // no duplicates
+  });
 }
 
 List<DrivingExercise> _makePool(Map<String, int> categoryCounts) {
