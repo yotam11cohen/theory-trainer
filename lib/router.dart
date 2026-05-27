@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'providers/auth_provider.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/auth/screens/register_screen.dart';
@@ -16,15 +17,23 @@ import 'shared/widgets/bottom_nav_shell.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authNotifier = ValueNotifier<bool>(false);
+  ref.onDispose(authNotifier.dispose);
 
-  ref.listen(currentUserProvider, (_, next) {
-    authNotifier.value = next != null;
+  ref.listen<AsyncValue<AuthState>>(authStateProvider, (_, next) {
+    // Only update once the stream has emitted (skip loading state)
+    next.whenData((authState) {
+      authNotifier.value = authState.session != null;
+    });
   });
 
   return GoRouter(
     initialLocation: '/app/home',
     refreshListenable: authNotifier,
     redirect: (context, state) {
+      // While auth stream hasn't emitted yet, don't redirect
+      final authAsync = ref.read(authStateProvider);
+      if (authAsync is AsyncLoading) return null;
+
       final loggedIn = authNotifier.value;
       final onAuth = state.matchedLocation.startsWith('/login') ||
           state.matchedLocation.startsWith('/register');
@@ -39,7 +48,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, __, shell) => BottomNavShell(navigationShell: shell),
         branches: [
           StatefulShellBranch(routes: [
-            GoRoute(path: '/app/home', builder: (_, __) => const HomeScreen()),
+            GoRoute(
+                path: '/app/home', builder: (_, __) => const HomeScreen()),
           ]),
           StatefulShellBranch(routes: [
             GoRoute(
@@ -48,14 +58,13 @@ final routerProvider = Provider<GoRouter>((ref) {
               routes: [
                 GoRoute(
                   path: ':category',
-                  builder: (_, s) =>
-                      LessonListScreen(category: s.pathParameters['category']!),
+                  builder: (_, s) => LessonListScreen(
+                      category: s.pathParameters['category']!),
                   routes: [
                     GoRoute(
                       path: ':lessonId',
                       builder: (_, s) => ExercisePlayerScreen(
-                        lessonId: s.pathParameters['lessonId']!,
-                      ),
+                          lessonId: s.pathParameters['lessonId']!),
                     ),
                   ],
                 ),

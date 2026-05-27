@@ -106,4 +106,7 @@ class AppLocalizationsHe extends AppLocalizations {
 
   @override
   String get loading => 'טוען...';
+
+  @override
+  String get homeTitle => 'לוח בקרה';
 }

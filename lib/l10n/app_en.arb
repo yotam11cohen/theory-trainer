@@ -44,5 +44,6 @@
   "notificationsLabel": "Study Reminders",
   "achievementsTitle": "Achievements",
   "errorGeneric": "Something went wrong. Please try again.",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "homeTitle": "Dashboard"
 }

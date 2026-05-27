@@ -44,5 +44,6 @@
   "notificationsLabel": "תזכורות לימוד",
   "achievementsTitle": "הישגים",
   "errorGeneric": "משהו השתבש. נסה שוב.",
-  "loading": "טוען..."
+  "loading": "טוען...",
+  "homeTitle": "לוח בקרה"
 }
