@@ -8,6 +8,9 @@ import 'app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  assert(AppConstants.supabaseUrl.isNotEmpty, 'SUPABASE_URL must be set via --dart-define');
+  assert(AppConstants.supabaseAnonKey.isNotEmpty, 'SUPABASE_ANON_KEY must be set via --dart-define');
+
   await Supabase.initialize(
     url: AppConstants.supabaseUrl,
     anonKey: AppConstants.supabaseAnonKey,
