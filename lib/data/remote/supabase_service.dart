@@ -187,7 +187,7 @@ class SupabaseService {
         .toList();
   }
 
-  Future<int> fetchUserRank(String userId, int userXp) async {
+  Future<int> fetchUserRank(int userXp) async {
     final data = await _client
         .from('users')
         .select('id')
