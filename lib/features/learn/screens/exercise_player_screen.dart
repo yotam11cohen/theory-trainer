@@ -5,6 +5,7 @@ import '../../../providers/lessons_provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/supabase_provider.dart';
 import '../../../providers/user_provider.dart';
+import '../../../providers/leaderboard_provider.dart';
 import '../../../data/local/hive_service.dart';
 import '../../../data/local/models/progress_event.dart';
 import '../../../domain/xp.dart';
@@ -50,6 +51,7 @@ class ExercisePlayerScreen extends ConsumerWidget {
                     score: score,
                   );
                   ref.invalidate(userProfileProvider);
+                  ref.invalidate(leaderboardProvider);
                 }
               } catch (_) {
                 await HiveService.enqueueProgress(ProgressEvent(

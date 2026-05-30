@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/models/leaderboard_entry.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/leaderboard_provider.dart';
 
 class LeaderboardScreen extends ConsumerWidget {
@@ -11,7 +12,7 @@ class LeaderboardScreen extends ConsumerWidget {
     final leaderboardAsync = ref.watch(leaderboardProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Leaderboard')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.tabLeaderboard)),
       body: leaderboardAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, __) => Center(
