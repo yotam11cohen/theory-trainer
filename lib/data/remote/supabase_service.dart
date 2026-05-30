@@ -141,6 +141,78 @@ class SupabaseService {
       lastActive: today.toIso8601String(),
     ));
     await HiveService.markLessonComplete(lessonId);
+    await _checkAndAwardAchievements(
+      userId: userId,
+      newXp: newXp,
+      newLevel: newLevel,
+      newStreak: newStreak,
+      score: score,
+    );
+  }
+
+  Future<void> _checkAndAwardAchievements({
+    required String userId,
+    required int newXp,
+    required int newLevel,
+    required int newStreak,
+    required int score,
+  }) async {
+    final allAchievements = await _client.from('achievements').select();
+    final earnedRows = await _client
+        .from('user_achievements')
+        .select('achievement_id')
+        .eq('user_id', userId);
+    final earnedIds = {
+      for (final e in earnedRows as List) e['achievement_id'] as String
+    };
+
+    final completedIds = await fetchCompletedLessonIds(userId);
+    final vehicleId = await _carVehicleId();
+    final allLessons = (await _client
+            .from('driving_lessons')
+            .select('id, category')
+            .eq('vehicle_id', vehicleId))
+        as List;
+
+    final now = DateTime.now().toIso8601String();
+
+    for (final row in allAchievements as List) {
+      final achievementId = row['id'] as String;
+      if (earnedIds.contains(achievementId)) continue;
+
+      final criteria = Map<String, dynamic>.from(row['criteria'] as Map);
+      final type = criteria['type'] as String;
+      bool shouldAward = false;
+
+      switch (type) {
+        case 'lessons_completed':
+          shouldAward = completedIds.length >= (criteria['count'] as int);
+        case 'category_completed':
+          final cat = criteria['category'] as String;
+          final catIds = allLessons
+              .where((l) => l['category'] == cat)
+              .map((l) => l['id'] as String)
+              .toSet();
+          shouldAward =
+              catIds.isNotEmpty && catIds.every(completedIds.contains);
+        case 'perfect_score':
+          shouldAward = score == 100;
+        case 'streak':
+          shouldAward = newStreak >= (criteria['days'] as int);
+        case 'xp':
+          shouldAward = newXp >= (criteria['amount'] as int);
+        case 'level':
+          shouldAward = newLevel >= (criteria['level'] as int);
+      }
+
+      if (shouldAward) {
+        await _client.from('user_achievements').upsert({
+          'user_id': userId,
+          'achievement_id': achievementId,
+          'earned_at': now,
+        });
+      }
+    }
   }
 
   Future<void> flushProgressQueue(String userId) async {

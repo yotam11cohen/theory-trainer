@@ -8,7 +8,7 @@ class AchievementBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Opacity(
-      opacity: achievement.isEarned ? 1.0 : 0.3,
+      opacity: achievement.isEarned ? 1.0 : 0.55,
       child: Column(
         children: [
           CircleAvatar(

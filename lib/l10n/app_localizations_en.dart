@@ -24,7 +24,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabProfile => 'Profile';
 
   @override
-  String get tabLeaderboard => 'Leaderboard';
+  String get tabLeaderboard => 'Leader';
 
   @override
   String get loginTitle => 'Welcome Back';
