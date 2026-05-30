@@ -26,7 +26,7 @@ class DrivingExercise {
   int get correctIndex => content['correct_index'] as int;
 
   // ListenChoose
-  String get text => content['text'] as String;
+  String get text => content['text'] as String? ?? content['question'] as String? ?? '';
 
   // CompletePhrase
   String get prompt => content['prompt'] as String;

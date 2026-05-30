@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 
 class ListenChooseWidget extends StatefulWidget {
   final String text;
@@ -22,23 +21,7 @@ class ListenChooseWidget extends StatefulWidget {
 }
 
 class _ListenChooseWidgetState extends State<ListenChooseWidget> {
-  final FlutterTts _tts = FlutterTts();
   int? _selected;
-
-  @override
-  void initState() {
-    super.initState();
-    _tts.setLanguage('he-IL');
-    _speak();
-  }
-
-  @override
-  void dispose() {
-    _tts.stop();
-    super.dispose();
-  }
-
-  Future<void> _speak() => _tts.speak(widget.text);
 
   void _pick(int index) {
     if (_selected != null) return;
@@ -54,9 +37,11 @@ class _ListenChooseWidgetState extends State<ListenChooseWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        IconButton(
-          icon: const Icon(Icons.volume_up, size: 48),
-          onPressed: _speak,
+        Text(
+          widget.text,
+          textAlign: TextAlign.center,
+          textDirection: TextDirection.rtl,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 24),
         ...List.generate(widget.options.length, (i) {
@@ -75,8 +60,7 @@ class _ListenChooseWidgetState extends State<ListenChooseWidget> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: color),
                 onPressed: () => _pick(i),
-                child: Text(widget.options[i],
-                    textDirection: TextDirection.rtl),
+                child: Text(widget.options[i], textDirection: TextDirection.rtl),
               ),
             ),
           );
