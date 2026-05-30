@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../providers/exam_provider.dart';
+import '../../../shared/in_app_banner.dart';
+import '../../../shared/sound_service.dart';
 
-class ExamResultScreen extends ConsumerWidget {
+class ExamResultScreen extends ConsumerStatefulWidget {
   const ExamResultScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ExamResultScreen> createState() => _ExamResultScreenState();
+}
+
+class _ExamResultScreenState extends ConsumerState<ExamResultScreen> {
+  bool _bannerShown = false;
+
+  @override
+  Widget build(BuildContext context) {
     final examAsync = ref.watch(examProvider);
 
     return Scaffold(
@@ -17,6 +26,21 @@ class ExamResultScreen extends ConsumerWidget {
         error: (e, _) => Center(child: Text('Error: $e')),
         data: (state) {
           final passed = state.passed;
+          if (!_bannerShown) {
+            _bannerShown = true;
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) {
+                if (passed) SoundService.playSuccess();
+                InAppBanner.show(
+                  context,
+                  emoji: passed ? '✅' : '❌',
+                  message: passed
+                      ? 'You passed! ${state.score}/${state.questions.length} — great job!'
+                      : 'Score: ${state.score}/${state.questions.length} — keep practicing!',
+                );
+              }
+            });
+          }
           return Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -45,11 +69,9 @@ class ExamResultScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 OutlinedButton(
-                  onPressed: () async {
-                    await ref.read(examProvider.notifier).startExam();
-                    if (context.mounted) {
-                      context.pushReplacement('/app/exam/session');
-                    }
+                  onPressed: () {
+                    ref.read(examProvider.notifier).startExam();
+                    context.pushReplacement('/app/exam/session');
                   },
                   child: const Text('Try Again'),
                 ),

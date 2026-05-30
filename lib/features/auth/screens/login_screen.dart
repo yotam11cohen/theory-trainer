@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../auth_error.dart';
 import '../widgets/auth_form.dart';
 import '../../../providers/supabase_provider.dart';
 
@@ -38,7 +39,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             password: _passCtrl.text,
           );
     } on AuthException catch (e) {
-      setState(() => _error = e.message);
+      setState(() => _error = friendlyAuthError(e.message));
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -55,7 +56,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             redirectTo: 'com.cleared.driving://login-callback',
           );
     } on AuthException catch (e) {
-      setState(() => _error = e.message);
+      setState(() => _error = friendlyAuthError(e.message));
     } catch (e) {
       setState(() => _error = 'Sign-in failed. Please try again.');
     } finally {

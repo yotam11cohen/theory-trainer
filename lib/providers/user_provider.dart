@@ -5,6 +5,7 @@ import 'supabase_provider.dart';
 import 'auth_provider.dart';
 
 final userProfileProvider = FutureProvider<UserProfile?>((ref) async {
+  ref.keepAlive(); // stay alive across tab navigations; invalidate explicitly after progress
   final user = ref.watch(currentUserProvider);
   if (user == null) return null;
   return ref.watch(supabaseServiceProvider).fetchUserProfile(user.id);

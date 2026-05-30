@@ -20,9 +20,7 @@ class ExamState {
   int get score {
     var correct = 0;
     for (final entry in answers.entries) {
-      final q = questions[entry.key];
-      final correctIndex = q.content['correct_index'] as int? ?? 0;
-      if (entry.value == correctIndex) correct++;
+      if (entry.value == questions[entry.key].correctIndex) correct++;
     }
     return correct;
   }
@@ -34,7 +32,11 @@ class ExamNotifier extends StateNotifier<AsyncValue<ExamState>> {
   final SupabaseService _service;
   ExamNotifier(this._service) : super(const AsyncValue.loading());
 
+  bool _isStarting = false;
+
   Future<void> startExam() async {
+    if (_isStarting) return;
+    _isStarting = true;
     state = const AsyncValue.loading();
     try {
       final pool = await _service.fetchExamPool();
@@ -46,6 +48,8 @@ class ExamNotifier extends StateNotifier<AsyncValue<ExamState>> {
       ));
     } catch (e, s) {
       state = AsyncValue.error(e, s);
+    } finally {
+      _isStarting = false;
     }
   }
 

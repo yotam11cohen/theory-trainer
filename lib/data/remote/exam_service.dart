@@ -12,7 +12,7 @@ abstract class ExamService {
       byCategory.putIfAbsent(cat, () => []).add(ex);
     }
 
-    const weights = AppConstants.categoryWeights;
+    final weights = AppConstants.categoryWeights;
     const total = AppConstants.examQuestionCount;
     final rng = Random();
     final selected = <DrivingExercise>[];

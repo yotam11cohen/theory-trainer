@@ -66,10 +66,9 @@ class _QuestionCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final content = exercise.content;
-    final options = List<String>.from(content['options'] as List? ?? []);
-    final question = content['question'] as String? ?? content['text'] as String? ?? '';
-    final imageUrl = content['image_url'] as String?;
+    final options = exercise.options;
+    final question = exercise.content['question'] as String? ?? exercise.text;
+    final imageUrl = exercise.imageUrl;
 
     return Padding(
       padding: const EdgeInsets.all(16),

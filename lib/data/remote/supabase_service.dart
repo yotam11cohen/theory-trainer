@@ -6,6 +6,7 @@ import '../../domain/models/achievement.dart';
 import '../../domain/xp.dart';
 import '../../constants.dart';
 import '../local/hive_service.dart';
+import '../local/models/progress_event.dart';
 import '../local/models/user_cache.dart';
 
 class SupabaseService {
@@ -143,14 +144,23 @@ class SupabaseService {
 
   Future<void> flushProgressQueue(String userId) async {
     final queue = await HiveService.getPendingProgress();
+    if (queue.isEmpty) return;
+    final failed = <ProgressEvent>[];
     for (final event in queue) {
-      await recordProgress(
-        userId: userId,
-        lessonId: event.lessonId,
-        score: event.score,
-      );
+      try {
+        await recordProgress(
+          userId: userId,
+          lessonId: event.lessonId,
+          score: event.score,
+        );
+      } catch (_) {
+        failed.add(event);
+      }
     }
     await HiveService.clearProgressQueue();
+    for (final event in failed) {
+      await HiveService.enqueueProgress(event);
+    }
   }
 
   Future<void> updateNotificationPreference(

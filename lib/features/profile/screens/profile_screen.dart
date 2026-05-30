@@ -33,10 +33,19 @@ class ProfileScreen extends ConsumerWidget {
         error: (e, _) => Center(child: Text('Error: $e')),
         data: (profile) {
           if (profile == null) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              if (context.mounted) context.go('/login');
-            });
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('Could not load profile'),
+                  const SizedBox(height: 12),
+                  ElevatedButton(
+                    onPressed: () => ref.invalidate(userProfileProvider),
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            );
           }
           return ListView(
             padding: const EdgeInsets.all(16),

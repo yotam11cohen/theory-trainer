@@ -35,7 +35,8 @@ abstract class HiveService {
   }
 
   static UserCache? getCachedUser() {
-    return Hive.box<UserCache>(_userCacheBox).getAt(0);
+    final box = Hive.box<UserCache>(_userCacheBox);
+    return box.isEmpty ? null : box.getAt(0);
   }
 
   static Future<void> markLessonComplete(String lessonId) async {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../domain/models/driving_exercise.dart';
+import '../../../shared/sound_service.dart';
 import 'vocabulary_card.dart';
 import 'listen_choose_widget.dart';
 import 'fill_blank_widget.dart';
@@ -29,7 +30,10 @@ class _ExerciseShellState extends State<ExerciseShell> {
         _correct++;
       });
 
-  void _onWrong() => setState(() => _answered = true);
+  void _onWrong() {
+    SoundService.playFail();
+    setState(() => _answered = true);
+  }
 
   void _next() {
     if (_index + 1 >= widget.exercises.length) {
@@ -78,34 +82,36 @@ class _ExerciseShellState extends State<ExerciseShell> {
   }
 
   Widget _buildExercise(DrivingExercise ex) {
-    final c = ex.content;
     return switch (ex.type) {
       ExerciseType.vocabulary => VocabularyCard(
-          term: c['term'] as String,
-          definition: c['definition'] as String,
-          imageUrl: c['image_url'] as String?,
-          // Vocabulary cards are informational — mark correct on first flip
+          key: ValueKey(ex.id),
+          term: ex.term,
+          definition: ex.definition,
+          imageUrl: ex.imageUrl,
           onFlip: _onCorrect,
         ),
       ExerciseType.listenChoose => ListenChooseWidget(
-          text: c['text'] as String,
-          options: List<String>.from(c['options'] as List),
-          correctIndex: c['correct_index'] as int,
+          key: ValueKey(ex.id),
+          text: ex.text,
+          options: ex.options,
+          correctIndex: ex.correctIndex,
           onCorrect: _onCorrect,
           onWrong: _onWrong,
         ),
       ExerciseType.completePhrase => FillBlankWidget(
-          prompt: c['prompt'] as String,
-          answer: c['answer'] as String,
-          wordBank: List<String>.from(c['word_bank'] as List),
+          key: ValueKey(ex.id),
+          prompt: ex.prompt,
+          answer: ex.answer,
+          wordBank: ex.wordBank,
           onCorrect: _onCorrect,
           onWrong: _onWrong,
         ),
       ExerciseType.imageQuestion => ImageQuestionWidget(
-          imageUrl: c['image_url'] as String,
-          question: c['question'] as String,
-          options: List<String>.from(c['options'] as List),
-          correctIndex: c['correct_index'] as int,
+          key: ValueKey(ex.id),
+          imageUrl: ex.imageUrl!,
+          question: ex.question,
+          options: ex.options,
+          correctIndex: ex.correctIndex,
           onCorrect: _onCorrect,
           onWrong: _onWrong,
         ),

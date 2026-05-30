@@ -17,6 +17,28 @@ class DrivingExercise {
     required this.content,
   });
 
+  // Vocabulary
+  String get term => content['term'] as String;
+  String get definition => content['definition'] as String;
+
+  // ListenChoose + ImageQuestion
+  List<String> get options => List<String>.from(content['options'] as List);
+  int get correctIndex => content['correct_index'] as int;
+
+  // ListenChoose
+  String get text => content['text'] as String;
+
+  // CompletePhrase
+  String get prompt => content['prompt'] as String;
+  String get answer => content['answer'] as String;
+  List<String> get wordBank => List<String>.from(content['word_bank'] as List);
+
+  // ImageQuestion + Vocabulary (optional)
+  String? get imageUrl => content['image_url'] as String?;
+
+  // ImageQuestion
+  String get question => content['question'] as String;
+
   factory DrivingExercise.fromJson(Map<String, dynamic> json) {
     final typeStr = json['type'] as String;
     final type = switch (typeStr) {
