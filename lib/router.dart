@@ -13,6 +13,7 @@ import 'features/exam/screens/exam_intro_screen.dart';
 import 'features/exam/screens/exam_session_screen.dart';
 import 'features/exam/screens/exam_result_screen.dart';
 import 'features/profile/screens/profile_screen.dart';
+import 'features/leaderboard/screens/leaderboard_screen.dart';
 import 'shared/widgets/bottom_nav_shell.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -89,6 +90,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             GoRoute(
                 path: '/app/profile',
                 builder: (_, __) => const ProfileScreen()),
+          ]),
+          StatefulShellBranch(routes: [
+            GoRoute(
+              path: '/app/leaderboard',
+              builder: (_, __) => const LeaderboardScreen(),
+            ),
           ]),
         ],
       ),

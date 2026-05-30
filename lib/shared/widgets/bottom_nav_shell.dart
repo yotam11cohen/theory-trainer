@@ -26,6 +26,10 @@ class BottomNavShell extends StatelessWidget {
               icon: const Icon(Icons.quiz_outlined), label: l.tabExam),
           NavigationDestination(
               icon: const Icon(Icons.person_outline), label: l.tabProfile),
+          NavigationDestination(
+            icon: const Icon(Icons.leaderboard_outlined),
+            label: l.tabLeaderboard,
+          ),
         ],
       ),
     );

@@ -125,6 +125,12 @@ abstract class AppLocalizations {
   /// **'Profile'**
   String get tabProfile;
 
+  /// No description provided for @tabLeaderboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaderboard'**
+  String get tabLeaderboard;
+
   /// No description provided for @loginTitle.
   ///
   /// In en, this message translates to:
