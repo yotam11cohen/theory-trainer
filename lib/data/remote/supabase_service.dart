@@ -3,6 +3,7 @@ import '../../domain/models/driving_lesson.dart';
 import '../../domain/models/driving_exercise.dart';
 import '../../domain/models/user_profile.dart';
 import '../../domain/models/achievement.dart';
+import '../../domain/models/leaderboard_entry.dart';
 import '../../domain/xp.dart';
 import '../../constants.dart';
 import '../local/hive_service.dart';
@@ -168,6 +169,30 @@ class SupabaseService {
     await _client
         .from('users')
         .update({'notifications_enabled': enabled}).eq('id', userId);
+  }
+
+  Future<List<LeaderboardEntry>> fetchLeaderboard() async {
+    final data = await _client
+        .from('users')
+        .select('id, display_name, total_xp')
+        .order('total_xp', ascending: false)
+        .limit(50);
+    return (data as List)
+        .asMap()
+        .entries
+        .map((e) => LeaderboardEntry.fromJson(
+              Map<String, dynamic>.from(e.value as Map),
+              rank: e.key + 1,
+            ))
+        .toList();
+  }
+
+  Future<int> fetchUserRank(String userId, int userXp) async {
+    final data = await _client
+        .from('users')
+        .select('id')
+        .gt('total_xp', userXp);
+    return (data as List).length + 1;
   }
 
   Future<void> signOut() async {
