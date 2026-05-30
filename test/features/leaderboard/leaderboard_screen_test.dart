@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:cleared_driving/domain/models/leaderboard_data.dart';
 import 'package:cleared_driving/domain/models/leaderboard_entry.dart';
 import 'package:cleared_driving/features/leaderboard/screens/leaderboard_screen.dart';
+import 'package:cleared_driving/l10n/app_localizations.dart';
 import 'package:cleared_driving/providers/leaderboard_provider.dart';
 
 LeaderboardEntry _e(int rank, String userId, String name, int xp) =>
@@ -15,7 +16,11 @@ LeaderboardEntry _e(int rank, String userId, String name, int xp) =>
 /// [makeOverride] receives the provider and returns an Override.
 Widget _wrapWith(Override Function() makeOverride) => ProviderScope(
       overrides: [makeOverride()],
-      child: const MaterialApp(home: LeaderboardScreen()),
+      child: const MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: LeaderboardScreen(),
+      ),
     );
 
 Widget _wrapLoading() => _wrapWith(
