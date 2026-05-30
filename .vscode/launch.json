@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "theory-trainer",
+      "request": "launch",
+      "type": "dart",
+      "toolArgs": [
+        "--dart-define=SUPABASE_URL=https://hdimopgovbvxgveimxro.supabase.co",
+        "--dart-define=SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkaW1vcGdvdmJ2eGd2ZWlteHJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NjM3OTQsImV4cCI6MjA5NDMzOTc5NH0.5i76F1ujJQRy9Ix52Pk9pK_yQ4_WCSYBPAow3BsT80A"
+      ]
+    }
+  ]
+}
