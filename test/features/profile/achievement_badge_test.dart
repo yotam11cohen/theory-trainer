@@ -25,7 +25,7 @@ void main() {
         MaterialApp(home: Scaffold(body: AchievementBadge(achievement: locked))),
       );
       final opacity = tester.widget<Opacity>(find.byType(Opacity));
-      expect(opacity.opacity, 0.3);
+      expect(opacity.opacity, 0.55);
     });
 
     testWidgets('shows achievement name', (tester) async {
