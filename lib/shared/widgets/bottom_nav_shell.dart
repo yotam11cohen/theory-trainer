@@ -27,9 +27,7 @@ class BottomNavShell extends StatelessWidget {
           NavigationDestination(
               icon: const Icon(Icons.person_outline), label: l.tabProfile),
           NavigationDestination(
-            icon: const Icon(Icons.leaderboard_outlined),
-            label: l.tabLeaderboard,
-          ),
+              icon: const Icon(Icons.leaderboard_outlined), label: l.tabLeaderboard),
         ],
       ),
     );
