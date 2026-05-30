@@ -34,9 +34,19 @@ abstract class ExamService {
       selected.add(remaining.removeLast());
     }
 
-    selected.shuffle(rng);
-    assert(selected.length >= total || pool.length < total,
-        'buildExam produced only ${selected.length} questions from a ${pool.length}-item pool');
-    return selected.take(total).toList();
+    // Deduplicate by question text — catches DB rows with identical content but different IDs
+    final seen = <String>{};
+    final deduped = selected.where((e) {
+      final key = e.content['question'] as String? ??
+          e.content['text'] as String? ??
+          e.content['term'] as String? ??
+          e.id;
+      return seen.add(key);
+    }).toList()
+      ..shuffle(rng);
+
+    assert(deduped.length >= total || pool.length < total,
+        'buildExam produced only ${deduped.length} questions from a ${pool.length}-item pool');
+    return deduped.take(total).toList();
   }
 }

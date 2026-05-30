@@ -42,8 +42,8 @@ List<DrivingExercise> _makePool(Map<String, int> categoryCounts) {
         isExamQuestion: true,
         content: {
           'category': entry.key,
-          'term': 'x',
-          'definition': 'y',
+          'term': 'term_$id',
+          'definition': 'def_$id',
         },
       ));
     }
