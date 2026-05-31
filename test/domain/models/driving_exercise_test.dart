@@ -142,5 +142,23 @@ void main() {
       expect(imageEx.options, ['A', 'B']);
       expect(imageEx.correctIndex, 0);
     });
+
+    test('explanation: returns null when absent', () {
+      final ex = DrivingExercise(
+        id: '5', lessonId: 'l', orderIndex: 0,
+        type: ExerciseType.vocabulary, isExamQuestion: false,
+        content: {'term': 'Stop', 'definition': 'עצור'},
+      );
+      expect(ex.explanation, isNull);
+    });
+
+    test('explanation: returns string when present', () {
+      final ex = DrivingExercise(
+        id: '6', lessonId: 'l', orderIndex: 0,
+        type: ExerciseType.vocabulary, isExamQuestion: false,
+        content: {'term': 'Stop', 'definition': 'עצור', 'explanation': 'A stop sign means you must come to a full stop.'},
+      );
+      expect(ex.explanation, 'A stop sign means you must come to a full stop.');
+    });
   });
 }

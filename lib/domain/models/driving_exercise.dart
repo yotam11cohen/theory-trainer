@@ -35,6 +35,7 @@ class DrivingExercise {
 
   // ImageQuestion + Vocabulary (optional)
   String? get imageUrl => content['image_url'] as String?;
+  String? get explanation => content['explanation'] as String?;
 
   // ImageQuestion
   String get question => content['question'] as String;
