@@ -86,7 +86,7 @@ class _OnboardingOverlayState extends State<OnboardingOverlay> {
         arrowPointsDown = true;
       case OnboardingArrow.xpBar:
         arrowX = size.width / 2;
-        arrowPointsDown = false;  // ADD THIS LINE
+        arrowPointsDown = false;
       case OnboardingArrow.none:
         arrowX = null;
     }

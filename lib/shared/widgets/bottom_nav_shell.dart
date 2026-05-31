@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../data/local/hive_service.dart';
 import '../../l10n/app_localizations.dart';
+import '../onboarding_notifier.dart';
 import 'onboarding_overlay.dart';
 
 class BottomNavShell extends StatefulWidget {
@@ -19,6 +20,20 @@ class _BottomNavShellState extends State<BottomNavShell> {
   void initState() {
     super.initState();
     _showOnboarding = !HiveService.isOnboardingComplete();
+    showOnboardingNotifier.addListener(_onReplayRequested);
+  }
+
+  void _onReplayRequested() {
+    if (showOnboardingNotifier.value) {
+      showOnboardingNotifier.value = false;
+      setState(() => _showOnboarding = true);
+    }
+  }
+
+  @override
+  void dispose() {
+    showOnboardingNotifier.removeListener(_onReplayRequested);
+    super.dispose();
   }
 
   void _dismissOnboarding() async {

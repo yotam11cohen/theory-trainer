@@ -7,6 +7,7 @@ import '../../../providers/supabase_provider.dart' show supabaseServiceProvider;
 import '../../../domain/xp.dart';
 import '../widgets/achievement_badge.dart';
 import '../../../data/local/hive_service.dart';
+import '../../../shared/onboarding_notifier.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -106,6 +107,7 @@ class ProfileScreen extends ConsumerWidget {
                 title: const Text('Show Tutorial'),
                 onTap: () async {
                   await HiveService.resetOnboarding();
+                  showOnboardingNotifier.value = true;
                   if (context.mounted) context.go('/app/home');
                 },
               ),
