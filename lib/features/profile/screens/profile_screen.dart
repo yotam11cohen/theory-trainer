@@ -100,7 +100,6 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              const SizedBox(height: 8),
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.help_outline),
