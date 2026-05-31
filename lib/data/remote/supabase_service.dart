@@ -215,6 +215,30 @@ class SupabaseService {
     }
   }
 
+  Future<void> awardExamPassedAchievement(String userId) async {
+    final allAchievements = await _client.from('achievements').select();
+    final earnedRows = await _client
+        .from('user_achievements')
+        .select('achievement_id')
+        .eq('user_id', userId);
+    final earnedIds = {
+      for (final e in earnedRows as List) e['achievement_id'] as String
+    };
+    final now = DateTime.now().toIso8601String();
+    for (final row in allAchievements as List) {
+      final achievementId = row['id'] as String;
+      if (earnedIds.contains(achievementId)) continue;
+      final criteria = Map<String, dynamic>.from(row['criteria'] as Map);
+      if (criteria['type'] == 'exam_passed') {
+        await _client.from('user_achievements').upsert({
+          'user_id': userId,
+          'achievement_id': achievementId,
+          'earned_at': now,
+        });
+      }
+    }
+  }
+
   Future<void> flushProgressQueue(String userId) async {
     final queue = await HiveService.getPendingProgress();
     if (queue.isEmpty) return;

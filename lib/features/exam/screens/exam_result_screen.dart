@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../providers/exam_provider.dart';
+import '../../../providers/auth_provider.dart';
+import '../../../providers/supabase_provider.dart';
 import '../../../domain/models/driving_exercise.dart';
 import '../../../shared/in_app_banner.dart';
 import '../../../shared/sound_service.dart';
@@ -31,7 +33,14 @@ class _ExamResultScreenState extends ConsumerState<ExamResultScreen> {
             _bannerShown = true;
             WidgetsBinding.instance.addPostFrameCallback((_) {
               if (mounted) {
-                if (passed) SoundService.playSuccess();
+                if (passed) {
+                  SoundService.playSuccess();
+                  final user = ref.read(currentUserProvider);
+                  if (user != null) {
+                    ref.read(supabaseServiceProvider)
+                        .awardExamPassedAchievement(user.id);
+                  }
+                }
                 InAppBanner.show(
                   context,
                   emoji: passed ? '✅' : '❌',
