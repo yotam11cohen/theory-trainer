@@ -6,6 +6,7 @@ import '../../../providers/auth_provider.dart';
 import '../../../providers/supabase_provider.dart' show supabaseServiceProvider;
 import '../../../domain/xp.dart';
 import '../widgets/achievement_badge.dart';
+import '../../../data/local/hive_service.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -99,6 +100,17 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 24),
+              const SizedBox(height: 8),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.help_outline),
+                title: const Text('Show Tutorial'),
+                onTap: () async {
+                  await HiveService.resetOnboarding();
+                  if (context.mounted) context.go('/app/home');
+                },
+              ),
+              const SizedBox(height: 16),
               Text('Achievements',
                   style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 12),
