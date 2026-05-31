@@ -54,4 +54,15 @@ void main() {
     await tester.pump();
     expect(find.text('Get Started'), findsOneWidget);
   });
+
+  testWidgets('Skip button is absent on last step', (tester) async {
+    await tester.pumpWidget(_wrap(
+      OnboardingOverlay(onDismiss: () {}),
+    ));
+    for (var i = 0; i < 4; i++) {
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+    }
+    expect(find.text('Skip'), findsNothing);
+  });
 }

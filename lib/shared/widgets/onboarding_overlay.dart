@@ -86,13 +86,13 @@ class _OnboardingOverlayState extends State<OnboardingOverlay> {
         arrowPointsDown = true;
       case OnboardingArrow.xpBar:
         arrowX = size.width / 2;
-        arrowPointsDown = false;
+        arrowPointsDown = false;  // ADD THIS LINE
       case OnboardingArrow.none:
         arrowX = null;
     }
 
     return ColoredBox(
-      color: Colors.black.withOpacity(0.65),
+      color: Colors.black.withValues(alpha: 0.65),
       child: Stack(
         children: [
           if (arrowX != null && arrowPointsDown)
