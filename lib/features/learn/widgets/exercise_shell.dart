@@ -24,15 +24,20 @@ class _ExerciseShellState extends State<ExerciseShell> {
   int _index = 0;
   int _correct = 0;
   bool _answered = false;
+  bool? _answeredCorrect;
 
   void _onCorrect() => setState(() {
         _answered = true;
+        _answeredCorrect = true;
         _correct++;
       });
 
   void _onWrong() {
     SoundService.playFail();
-    setState(() => _answered = true);
+    setState(() {
+      _answered = true;
+      _answeredCorrect = false;
+    });
   }
 
   void _next() {
@@ -44,6 +49,7 @@ class _ExerciseShellState extends State<ExerciseShell> {
     setState(() {
       _index++;
       _answered = false;
+      _answeredCorrect = null;
     });
   }
 
@@ -65,6 +71,40 @@ class _ExerciseShellState extends State<ExerciseShell> {
             child: _buildExercise(ex),
           ),
         ),
+        if (_answered && ex.explanation != null && ex.explanation!.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Card(
+              color: _answeredCorrect == true
+                  ? Colors.green.withValues(alpha: 0.12)
+                  : Colors.red.withValues(alpha: 0.12),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      _answeredCorrect == true
+                          ? Icons.check_circle_outline
+                          : Icons.info_outline,
+                      color: _answeredCorrect == true
+                          ? Colors.green
+                          : Colors.red,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        ex.explanation!,
+                        textDirection: TextDirection.rtl,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         if (_answered)
           Padding(
             padding: const EdgeInsets.all(16),

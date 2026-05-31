@@ -150,6 +150,82 @@ void main() {
     });
   });
 
+  group('explanation card', () {
+    testWidgets('shows explanation after wrong answer when set', (tester) async {
+      final exercises = [
+        DrivingExercise(
+          id: 'e1', lessonId: 'l1', orderIndex: 0,
+          type: ExerciseType.listenChoose, isExamQuestion: false,
+          content: {
+            'text': 'What is a stop sign?',
+            'options': ['Yield', 'Stop', 'Speed up'],
+            'correct_index': 1,
+            'explanation': 'A stop sign requires a full stop.',
+          },
+        ),
+      ];
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: ExerciseShell(exercises: exercises, onComplete: (_) {}),
+          ),
+        ),
+      );
+      await tester.tap(find.text('Yield'));
+      await tester.pump();
+      expect(find.text('A stop sign requires a full stop.'), findsOneWidget);
+    });
+
+    testWidgets('shows explanation after correct answer when set', (tester) async {
+      final exercises = [
+        DrivingExercise(
+          id: 'e2', lessonId: 'l1', orderIndex: 0,
+          type: ExerciseType.listenChoose, isExamQuestion: false,
+          content: {
+            'text': 'What is a stop sign?',
+            'options': ['Yield', 'Stop', 'Speed up'],
+            'correct_index': 1,
+            'explanation': 'A stop sign requires a full stop.',
+          },
+        ),
+      ];
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: ExerciseShell(exercises: exercises, onComplete: (_) {}),
+          ),
+        ),
+      );
+      await tester.tap(find.text('Stop'));
+      await tester.pump();
+      expect(find.text('A stop sign requires a full stop.'), findsOneWidget);
+    });
+
+    testWidgets('hides explanation card when explanation is null', (tester) async {
+      final exercises = [
+        DrivingExercise(
+          id: 'e3', lessonId: 'l1', orderIndex: 0,
+          type: ExerciseType.listenChoose, isExamQuestion: false,
+          content: {
+            'text': 'What is a stop sign?',
+            'options': ['Yield', 'Stop', 'Speed up'],
+            'correct_index': 1,
+          },
+        ),
+      ];
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: ExerciseShell(exercises: exercises, onComplete: (_) {}),
+          ),
+        ),
+      );
+      await tester.tap(find.text('Yield'));
+      await tester.pump();
+      expect(find.byType(Card), findsNothing);
+    });
+  });
+
   group('ExerciseShell double-answer prevention', () {
     testWidgets('fill-blank ignores second tap after answered', (tester) async {
       await tester.pumpWidget(MaterialApp(
