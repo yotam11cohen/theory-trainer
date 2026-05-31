@@ -6,6 +6,7 @@ abstract class HiveService {
   static const _progressQueueBox = 'progress_queue';
   static const _userCacheBox = 'user_cache';
   static const _completedLessonsBox = 'completed_lessons';
+  static const _settingsBox = 'settings';
 
   static Future<void> init() async {
     await Hive.initFlutter();
@@ -14,6 +15,7 @@ abstract class HiveService {
     await Hive.openBox<ProgressEvent>(_progressQueueBox);
     await Hive.openBox<UserCache>(_userCacheBox);
     await Hive.openBox<String>(_completedLessonsBox);
+    await Hive.openBox<bool>(_settingsBox);
   }
 
   static Future<void> enqueueProgress(ProgressEvent event) async {
@@ -49,5 +51,17 @@ abstract class HiveService {
 
   static Set<String> getCompletedLessonIds() {
     return Hive.box<String>(_completedLessonsBox).values.toSet();
+  }
+
+  static bool isOnboardingComplete() {
+    return Hive.box<bool>(_settingsBox).get('onboardingComplete') ?? false;
+  }
+
+  static Future<void> setOnboardingComplete() async {
+    await Hive.box<bool>(_settingsBox).put('onboardingComplete', true);
+  }
+
+  static Future<void> resetOnboarding() async {
+    await Hive.box<bool>(_settingsBox).delete('onboardingComplete');
   }
 }

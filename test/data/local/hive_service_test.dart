@@ -14,6 +14,7 @@ void main() {
     await Hive.openBox<ProgressEvent>('progress_queue');
     await Hive.openBox<String>('completed_lessons');
     await Hive.openBox<UserCache>('user_cache');
+    await Hive.openBox<bool>('settings');
   });
 
   tearDown(() async {
@@ -95,6 +96,23 @@ void main() {
       final cached = HiveService.getCachedUser();
       expect(cached!.totalXp, 500);
       expect(cached.level, 2);
+    });
+  });
+
+  group('onboarding flag', () {
+    test('isOnboardingComplete returns false by default', () {
+      expect(HiveService.isOnboardingComplete(), false);
+    });
+
+    test('setOnboardingComplete makes isOnboardingComplete return true', () async {
+      await HiveService.setOnboardingComplete();
+      expect(HiveService.isOnboardingComplete(), true);
+    });
+
+    test('resetOnboarding makes isOnboardingComplete return false again', () async {
+      await HiveService.setOnboardingComplete();
+      await HiveService.resetOnboarding();
+      expect(HiveService.isOnboardingComplete(), false);
     });
   });
 }
