@@ -291,6 +291,17 @@ class SupabaseService {
     return (data as List).length + 1;
   }
 
+  Future<void> updateDisplayName(String userId, String name) async {
+    await _client.from('users').update({'display_name': name}).eq('id', userId);
+  }
+
+  Future<void> deleteAccount(String userId) async {
+    await _client.from('user_achievements').delete().eq('user_id', userId);
+    await _client.from('driving_progress').delete().eq('user_id', userId);
+    await _client.from('users').delete().eq('id', userId);
+    await _client.auth.signOut();
+  }
+
   Future<void> signOut() async {
     await _client.auth.signOut();
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'models/progress_event.dart';
 import 'models/user_cache.dart';
@@ -51,6 +52,15 @@ abstract class HiveService {
 
   static Set<String> getCompletedLessonIds() {
     return Hive.box<String>(_completedLessonsBox).values.toSet();
+  }
+
+  static Locale getSavedLocale() {
+    final isHebrew = Hive.box<bool>(_settingsBox).get('localeHe') ?? true;
+    return isHebrew ? const Locale('he') : const Locale('en');
+  }
+
+  static Future<void> saveLocale(String languageCode) async {
+    await Hive.box<bool>(_settingsBox).put('localeHe', languageCode == 'he');
   }
 
   static bool isOnboardingComplete() {

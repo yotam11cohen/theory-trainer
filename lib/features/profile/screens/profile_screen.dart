@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/auth_provider.dart';
+import '../../../providers/locale_provider.dart';
 import '../../../providers/supabase_provider.dart' show supabaseServiceProvider;
 import '../../../domain/xp.dart';
 import '../widgets/achievement_badge.dart';
@@ -63,8 +64,17 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 const SizedBox(width: 16),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(profile.displayName,
-                      style: Theme.of(context).textTheme.titleLarge),
+                  GestureDetector(
+                    onTap: () => _editDisplayName(context, ref, profile.displayName),
+                    child: Row(
+                      children: [
+                        Text(profile.displayName,
+                            style: Theme.of(context).textTheme.titleLarge),
+                        const SizedBox(width: 4),
+                        const Icon(Icons.edit, size: 16),
+                      ],
+                    ),
+                  ),
                   Text('Level ${profile.level} • ${profile.totalXp} XP'),
                   const SizedBox(height: 2),
                   Text(
@@ -109,6 +119,22 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Language / שפה'),
+                  SegmentedButton<String>(
+                    segments: const [
+                      ButtonSegment(value: 'he', label: Text('עברית')),
+                      ButtonSegment(value: 'en', label: Text('English')),
+                    ],
+                    selected: {ref.watch(localeProvider).languageCode},
+                    onSelectionChanged: (s) =>
+                        ref.read(localeProvider.notifier).setLocale(Locale(s.first)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.help_outline),
@@ -118,6 +144,14 @@ class ProfileScreen extends ConsumerWidget {
                   showOnboardingNotifier.value = true;
                   if (context.mounted) context.go('/app/home');
                 },
+              ),
+              const SizedBox(height: 8),
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.delete_outline, color: Colors.red),
+                title: const Text('Delete Account',
+                    style: TextStyle(color: Colors.red)),
+                onTap: () => _confirmDeleteAccount(context, ref),
               ),
               const SizedBox(height: 16),
               Text('Achievements',
@@ -139,5 +173,78 @@ class ProfileScreen extends ConsumerWidget {
         },
       ),
     );
+  }
+
+  Future<void> _editDisplayName(
+      BuildContext context, WidgetRef ref, String current) async {
+    final controller = TextEditingController(text: current);
+    final newName = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Edit Name'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(labelText: 'Display name'),
+        ),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, controller.text.trim()),
+              child: const Text('Save')),
+        ],
+      ),
+    );
+    if (newName == null || newName.isEmpty) return;
+    final user = ref.read(currentUserProvider);
+    if (user == null) return;
+    try {
+      await ref
+          .read(supabaseServiceProvider)
+          .updateDisplayName(user.id, newName);
+      ref.invalidate(userProfileProvider);
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to update name')),
+        );
+      }
+    }
+  }
+
+  Future<void> _confirmDeleteAccount(
+      BuildContext context, WidgetRef ref) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete Account'),
+        content: const Text(
+            'This will permanently delete your account and all your progress. This cannot be undone.'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('Delete',
+                  style: TextStyle(color: Colors.red))),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    final user = ref.read(currentUserProvider);
+    if (user == null) return;
+    try {
+      await ref.read(supabaseServiceProvider).deleteAccount(user.id);
+      if (context.mounted) context.go('/login');
+    } catch (_) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to delete account')),
+        );
+      }
+    }
   }
 }

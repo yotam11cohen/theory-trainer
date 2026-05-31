@@ -78,6 +78,25 @@ class ExercisePlayerScreen extends ConsumerWidget {
                   InAppBanner.show(context,
                       emoji: '🎉',
                       message: 'Level up! You are now ${XpCalculator.levelTitle(newLevel)} — ${XpCalculator.levelDescription(newLevel)}');
+                } else {
+                  // Check if this lesson completed its category
+                  final allLessons = ref.read(lessonsProvider).valueOrNull ?? [];
+                  final completedNow = HiveService.getCompletedLessonIds();
+                  final currentLesson = allLessons.firstWhere(
+                    (l) => l.id == lessonId,
+                    orElse: () => allLessons.first,
+                  );
+                  final categoryLessons = allLessons
+                      .where((l) => l.category == currentLesson.category)
+                      .map((l) => l.id)
+                      .toSet();
+                  final categoryDone =
+                      categoryLessons.every(completedNow.contains);
+                  if (categoryDone) {
+                    InAppBanner.show(context,
+                        emoji: '🏅',
+                        message: 'Category complete! ${currentLesson.category} done!');
+                  }
                 }
                 context.pop();
               }
