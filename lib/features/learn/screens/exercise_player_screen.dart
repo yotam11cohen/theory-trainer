@@ -76,7 +76,8 @@ class ExercisePlayerScreen extends ConsumerWidget {
                       emoji: '⭐', message: 'Great start! First lesson complete!');
                 } else if (newLevel > oldLevel) {
                   InAppBanner.show(context,
-                      emoji: '🎉', message: 'Level up! You reached Level $newLevel!');
+                      emoji: '🎉',
+                      message: 'Level up! You are now ${XpCalculator.levelTitle(newLevel)} — ${XpCalculator.levelDescription(newLevel)}');
                 }
                 context.pop();
               }

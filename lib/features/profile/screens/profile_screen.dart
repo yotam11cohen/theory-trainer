@@ -66,6 +66,14 @@ class ProfileScreen extends ConsumerWidget {
                   Text(profile.displayName,
                       style: Theme.of(context).textTheme.titleLarge),
                   Text('Level ${profile.level} • ${profile.totalXp} XP'),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${XpCalculator.levelTitle(profile.level)} · ${XpCalculator.levelDescription(profile.level)}',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
                 ]),
               ]),
               const SizedBox(height: 16),

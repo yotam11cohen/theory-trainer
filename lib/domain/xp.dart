@@ -1,5 +1,27 @@
 abstract class XpCalculator {
   static const thresholds = [0, 500, 1500, 3000, 6000];
+
+  static const _titles = [
+    'Learner',
+    'Student Driver',
+    'Road Ready',
+    'Theory Expert',
+    'Road Master',
+  ];
+
+  static const _descriptions = [
+    'רק מתחיל את הדרך',
+    'לומד ומתקדם',
+    'כמעט מוכן לכביש',
+    'שולט בחומר',
+    'אלוף הכביש',
+  ];
+
+  static String levelTitle(int level) =>
+      _titles[(level - 1).clamp(0, _titles.length - 1)];
+
+  static String levelDescription(int level) =>
+      _descriptions[(level - 1).clamp(0, _descriptions.length - 1)];
   static const xpStandard = 10;
   static const xpPerfect = 15;
 

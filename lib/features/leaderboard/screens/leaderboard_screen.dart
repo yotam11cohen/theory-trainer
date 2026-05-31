@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/models/leaderboard_entry.dart';
+import '../../../domain/xp.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/leaderboard_provider.dart';
 
@@ -61,6 +62,9 @@ class _LeaderboardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final level = XpCalculator.levelFor(entry.totalXp);
+    final title = XpCalculator.levelTitle(level);
+    final description = XpCalculator.levelDescription(level);
     return ListTile(
       tileColor: highlight,
       leading: SizedBox(
@@ -71,6 +75,10 @@ class _LeaderboardTile extends StatelessWidget {
         ),
       ),
       title: Text(entry.displayName),
+      subtitle: Text(
+        '$title · $description',
+        style: Theme.of(context).textTheme.labelSmall,
+      ),
       trailing: Text(
         '${entry.totalXp} XP',
         style: Theme.of(context).textTheme.bodySmall,
