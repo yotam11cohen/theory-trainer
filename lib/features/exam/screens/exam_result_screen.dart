@@ -5,6 +5,7 @@ import '../../../providers/exam_provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/supabase_provider.dart';
 import '../../../domain/models/driving_exercise.dart';
+import '../../../constants.dart';
 import '../../../shared/in_app_banner.dart';
 import '../../../shared/sound_service.dart';
 
@@ -90,6 +91,17 @@ class _ExamResultScreenState extends ConsumerState<ExamResultScreen> {
                         child: const Text('Try Again'),
                       ),
                       const SizedBox(height: 24),
+                      const Divider(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Text(
+                          'By Category',
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      _CategoryBreakdown(state: state),
+                      const SizedBox(height: 16),
                       const Divider(),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -235,6 +247,76 @@ class _AnswerRow extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _CategoryBreakdown extends StatelessWidget {
+  final ExamState state;
+  const _CategoryBreakdown({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    // Tally correct/total per category slug
+    final totals = <String, int>{};
+    final corrects = <String, int>{};
+    for (var i = 0; i < state.questions.length; i++) {
+      final q = state.questions[i];
+      final cat = q.content['category'] as String? ?? 'signs';
+      totals[cat] = (totals[cat] ?? 0) + 1;
+      if (state.answers[i] == q.correctIndex) {
+        corrects[cat] = (corrects[cat] ?? 0) + 1;
+      }
+    }
+
+    return Column(
+      children: AppConstants.categories
+          .where((cat) => totals.containsKey(cat.slug))
+          .map((cat) {
+        final total = totals[cat.slug] ?? 0;
+        final correct = corrects[cat.slug] ?? 0;
+        final progress = total == 0 ? 0.0 : correct / total;
+        final isWeak = progress < 0.6;
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: [
+              Icon(cat.icon, size: 18,
+                  color: isWeak ? Colors.red : Colors.green),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(cat.nameHe,
+                            style: Theme.of(context).textTheme.bodyMedium),
+                        Text('$correct/$total',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(
+                                  color: isWeak ? Colors.red : Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    LinearProgressIndicator(
+                      value: progress,
+                      borderRadius: BorderRadius.circular(4),
+                      minHeight: 6,
+                      color: isWeak ? Colors.red : Colors.green,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
     );
   }
 }
