@@ -112,4 +112,123 @@ class AppLocalizationsHe extends AppLocalizations {
 
   @override
   String get homeTitle => 'לוח בקרה';
+
+  @override
+  String get learnTitle => 'לימוד';
+
+  @override
+  String get profileTitle => 'פרופיל';
+
+  @override
+  String get resultsTitle => 'תוצאות';
+
+  @override
+  String get lessonTitle => 'שיעור';
+
+  @override
+  String get categoriesTitle => 'קטגוריות';
+
+  @override
+  String lessonsDone(int count) {
+    return '$count שיעורים הושלמו';
+  }
+
+  @override
+  String pctComplete(int pct) {
+    return '$pct% הושלם';
+  }
+
+  @override
+  String get takeExam => 'למבחן ←';
+
+  @override
+  String continueLesson(String category, String lesson) {
+    return 'המשך: $category — $lesson';
+  }
+
+  @override
+  String get examByCategory => 'לפי קטגוריה';
+
+  @override
+  String get examReview => 'סקירה';
+
+  @override
+  String get goHome => 'לדף הבית';
+
+  @override
+  String get tryAgain => 'נסה שוב';
+
+  @override
+  String get leaderboardError => 'לא ניתן לטעון את לוח השיאים';
+
+  @override
+  String get retry => 'נסה שוב';
+
+  @override
+  String get showTutorial => 'הצג מדריך';
+
+  @override
+  String get deleteAccount => 'מחק חשבון';
+
+  @override
+  String get deleteAccountConfirmTitle => 'מחק חשבון';
+
+  @override
+  String get deleteAccountConfirmBody => 'פעולה זו תמחק לצמיתות את חשבונך ואת כל ההתקדמות שלך. לא ניתן לבטל.';
+
+  @override
+  String get delete => 'מחק';
+
+  @override
+  String get cancel => 'ביטול';
+
+  @override
+  String get editName => 'עריכת שם';
+
+  @override
+  String get displayName => 'שם תצוגה';
+
+  @override
+  String get save => 'שמור';
+
+  @override
+  String get failedUpdateName => 'לא ניתן לעדכן שם';
+
+  @override
+  String get failedDeleteAccount => 'לא ניתן למחוק חשבון';
+
+  @override
+  String get failedUpdateNotification => 'לא ניתן לעדכן העדפות התראות';
+
+  @override
+  String get languageLabel => 'שפה';
+
+  @override
+  String get noLessons => 'אין שיעורים בקטגוריה זו.';
+
+  @override
+  String get noExercises => 'אין תרגילים בשיעור זה.';
+
+  @override
+  String get offlineSaved => 'נשמר אופליין — יסונכרן בעת חיבור';
+
+  @override
+  String get firstLessonBanner => 'התחלה מצוינת! שיעור ראשון הושלם!';
+
+  @override
+  String levelUpBanner(String title, String description) {
+    return 'עלית רמה! אתה עכשיו $title — $description';
+  }
+
+  @override
+  String get categoryDoneBanner => 'קטגוריה הושלמה!';
+
+  @override
+  String get next => 'הבא';
+
+  @override
+  String get finish => 'סיים';
+
+  @override
+  String get couldNotLoadProfile => 'לא ניתן לטעון פרופיל';
 }

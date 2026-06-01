@@ -46,5 +46,56 @@
   "achievementsTitle": "הישגים",
   "errorGeneric": "משהו השתבש. נסה שוב.",
   "loading": "טוען...",
-  "homeTitle": "לוח בקרה"
+  "homeTitle": "לוח בקרה",
+  "learnTitle": "לימוד",
+  "profileTitle": "פרופיל",
+  "resultsTitle": "תוצאות",
+  "lessonTitle": "שיעור",
+  "categoriesTitle": "קטגוריות",
+  "lessonsDone": "{count} שיעורים הושלמו",
+  "@lessonsDone": { "placeholders": { "count": { "type": "int" } } },
+  "pctComplete": "{pct}% הושלם",
+  "@pctComplete": { "placeholders": { "pct": { "type": "int" } } },
+  "takeExam": "למבחן ←",
+  "continueLesson": "המשך: {category} — {lesson}",
+  "@continueLesson": {
+    "placeholders": {
+      "category": { "type": "String" },
+      "lesson": { "type": "String" }
+    }
+  },
+  "examByCategory": "לפי קטגוריה",
+  "examReview": "סקירה",
+  "goHome": "לדף הבית",
+  "tryAgain": "נסה שוב",
+  "leaderboardError": "לא ניתן לטעון את לוח השיאים",
+  "retry": "נסה שוב",
+  "showTutorial": "הצג מדריך",
+  "deleteAccount": "מחק חשבון",
+  "deleteAccountConfirmTitle": "מחק חשבון",
+  "deleteAccountConfirmBody": "פעולה זו תמחק לצמיתות את חשבונך ואת כל ההתקדמות שלך. לא ניתן לבטל.",
+  "delete": "מחק",
+  "cancel": "ביטול",
+  "editName": "עריכת שם",
+  "displayName": "שם תצוגה",
+  "save": "שמור",
+  "failedUpdateName": "לא ניתן לעדכן שם",
+  "failedDeleteAccount": "לא ניתן למחוק חשבון",
+  "failedUpdateNotification": "לא ניתן לעדכן העדפות התראות",
+  "languageLabel": "שפה",
+  "noLessons": "אין שיעורים בקטגוריה זו.",
+  "noExercises": "אין תרגילים בשיעור זה.",
+  "offlineSaved": "נשמר אופליין — יסונכרן בעת חיבור",
+  "firstLessonBanner": "התחלה מצוינת! שיעור ראשון הושלם!",
+  "levelUpBanner": "עלית רמה! אתה עכשיו {title} — {description}",
+  "@levelUpBanner": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "description": { "type": "String" }
+    }
+  },
+  "categoryDoneBanner": "קטגוריה הושלמה!",
+  "next": "הבא",
+  "finish": "סיים",
+  "couldNotLoadProfile": "לא ניתן לטעון פרופיל"
 }

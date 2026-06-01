@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/lessons_provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/supabase_provider.dart';
@@ -19,16 +20,17 @@ class ExercisePlayerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final exercisesAsync = ref.watch(exercisesProvider(lessonId));
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Lesson')),
+      appBar: AppBar(title: Text(l.lessonTitle)),
       body: exercisesAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Error: $e')),
         data: (exercises) {
           if (exercises.isEmpty) {
-            return const Center(child: Text('No exercises in this lesson.'));
+            return Center(child: Text(l.noExercises));
           }
           return ExerciseShell(
             exercises: exercises,
@@ -62,9 +64,9 @@ class ExercisePlayerScreen extends ConsumerWidget {
                 await HiveService.markLessonComplete(lessonId);
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Saved offline — will sync when connected'),
-                      duration: Duration(seconds: 3),
+                    SnackBar(
+                      content: Text(l.offlineSaved),
+                      duration: const Duration(seconds: 3),
                     ),
                   );
                 }
@@ -73,11 +75,11 @@ class ExercisePlayerScreen extends ConsumerWidget {
               if (context.mounted) {
                 if (isFirst) {
                   InAppBanner.show(context,
-                      emoji: '⭐', message: 'Great start! First lesson complete!');
+                      emoji: '⭐', message: l.firstLessonBanner);
                 } else if (newLevel > oldLevel) {
                   InAppBanner.show(context,
                       emoji: '🎉',
-                      message: 'Level up! You are now ${XpCalculator.levelTitle(newLevel)} — ${XpCalculator.levelDescription(newLevel)}');
+                      message: l.levelUpBanner(XpCalculator.levelTitle(newLevel), XpCalculator.levelDescription(newLevel)));
                 } else {
                   // Check if this lesson completed its category
                   final allLessons = ref.read(lessonsProvider).valueOrNull ?? [];
@@ -95,7 +97,7 @@ class ExercisePlayerScreen extends ConsumerWidget {
                   if (categoryDone) {
                     InAppBanner.show(context,
                         emoji: '🏅',
-                        message: 'Category complete! ${currentLesson.category} done!');
+                        message: l.categoryDoneBanner);
                   }
                 }
                 context.pop();

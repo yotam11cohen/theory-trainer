@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../domain/models/driving_lesson.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/lessons_provider.dart';
 import '../../../data/local/hive_service.dart';
 
@@ -23,6 +24,7 @@ class LessonListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final lessonsAsync = ref.watch(lessonsProvider);
     final completed = HiveService.getCompletedLessonIds();
 
@@ -37,7 +39,7 @@ class LessonListScreen extends ConsumerWidget {
               .toList()
             ..sort((a, b) => a.orderIndex.compareTo(b.orderIndex));
           if (filtered.isEmpty) {
-            return const Center(child: Text('No lessons in this category.'));
+            return Center(child: Text(l.noLessons));
           }
           return ListView.builder(
             itemCount: filtered.length,

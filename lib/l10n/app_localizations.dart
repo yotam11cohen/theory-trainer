@@ -128,7 +128,7 @@ abstract class AppLocalizations {
   /// No description provided for @tabLeaderboard.
   ///
   /// In en, this message translates to:
-  /// **'Leaderboard'**
+  /// **'Leader'**
   String get tabLeaderboard;
 
   /// No description provided for @loginTitle.
@@ -280,6 +280,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dashboard'**
   String get homeTitle;
+
+  /// No description provided for @learnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn'**
+  String get learnTitle;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileTitle;
+
+  /// No description provided for @resultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Results'**
+  String get resultsTitle;
+
+  /// No description provided for @lessonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson'**
+  String get lessonTitle;
+
+  /// No description provided for @categoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get categoriesTitle;
+
+  /// No description provided for @lessonsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} lessons done'**
+  String lessonsDone(int count);
+
+  /// No description provided for @pctComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'{pct}% complete'**
+  String pctComplete(int pct);
+
+  /// No description provided for @takeExam.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the Exam →'**
+  String get takeExam;
+
+  /// No description provided for @continueLesson.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue: {category} — {lesson}'**
+  String continueLesson(String category, String lesson);
+
+  /// No description provided for @examByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'By Category'**
+  String get examByCategory;
+
+  /// No description provided for @examReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get examReview;
+
+  /// No description provided for @goHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Home'**
+  String get goHome;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get tryAgain;
+
+  /// No description provided for @leaderboardError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load leaderboard'**
+  String get leaderboardError;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @showTutorial.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Tutorial'**
+  String get showTutorial;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccountConfirmTitle;
+
+  /// No description provided for @deleteAccountConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete your account and all your progress. This cannot be undone.'**
+  String get deleteAccountConfirmBody;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @editName.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Name'**
+  String get editName;
+
+  /// No description provided for @displayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Display name'**
+  String get displayName;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @failedUpdateName.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update name'**
+  String get failedUpdateName;
+
+  /// No description provided for @failedDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete account'**
+  String get failedDeleteAccount;
+
+  /// No description provided for @failedUpdateNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update notification preference'**
+  String get failedUpdateNotification;
+
+  /// No description provided for @languageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageLabel;
+
+  /// No description provided for @noLessons.
+  ///
+  /// In en, this message translates to:
+  /// **'No lessons in this category.'**
+  String get noLessons;
+
+  /// No description provided for @noExercises.
+  ///
+  /// In en, this message translates to:
+  /// **'No exercises in this lesson.'**
+  String get noExercises;
+
+  /// No description provided for @offlineSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved offline — will sync when connected'**
+  String get offlineSaved;
+
+  /// No description provided for @firstLessonBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Great start! First lesson complete!'**
+  String get firstLessonBanner;
+
+  /// No description provided for @levelUpBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Level up! You are now {title} — {description}'**
+  String levelUpBanner(String title, String description);
+
+  /// No description provided for @categoryDoneBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Category complete!'**
+  String get categoryDoneBanner;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @finish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get finish;
+
+  /// No description provided for @couldNotLoadProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load profile'**
+  String get couldNotLoadProfile;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

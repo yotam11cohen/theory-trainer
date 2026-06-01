@@ -112,4 +112,123 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeTitle => 'Dashboard';
+
+  @override
+  String get learnTitle => 'Learn';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get resultsTitle => 'Results';
+
+  @override
+  String get lessonTitle => 'Lesson';
+
+  @override
+  String get categoriesTitle => 'Categories';
+
+  @override
+  String lessonsDone(int count) {
+    return '$count lessons done';
+  }
+
+  @override
+  String pctComplete(int pct) {
+    return '$pct% complete';
+  }
+
+  @override
+  String get takeExam => 'Take the Exam →';
+
+  @override
+  String continueLesson(String category, String lesson) {
+    return 'Continue: $category — $lesson';
+  }
+
+  @override
+  String get examByCategory => 'By Category';
+
+  @override
+  String get examReview => 'Review';
+
+  @override
+  String get goHome => 'Go Home';
+
+  @override
+  String get tryAgain => 'Try Again';
+
+  @override
+  String get leaderboardError => 'Could not load leaderboard';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get showTutorial => 'Show Tutorial';
+
+  @override
+  String get deleteAccount => 'Delete Account';
+
+  @override
+  String get deleteAccountConfirmTitle => 'Delete Account';
+
+  @override
+  String get deleteAccountConfirmBody => 'This will permanently delete your account and all your progress. This cannot be undone.';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get editName => 'Edit Name';
+
+  @override
+  String get displayName => 'Display name';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get failedUpdateName => 'Failed to update name';
+
+  @override
+  String get failedDeleteAccount => 'Failed to delete account';
+
+  @override
+  String get failedUpdateNotification => 'Failed to update notification preference';
+
+  @override
+  String get languageLabel => 'Language';
+
+  @override
+  String get noLessons => 'No lessons in this category.';
+
+  @override
+  String get noExercises => 'No exercises in this lesson.';
+
+  @override
+  String get offlineSaved => 'Saved offline — will sync when connected';
+
+  @override
+  String get firstLessonBanner => 'Great start! First lesson complete!';
+
+  @override
+  String levelUpBanner(String title, String description) {
+    return 'Level up! You are now $title — $description';
+  }
+
+  @override
+  String get categoryDoneBanner => 'Category complete!';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get finish => 'Finish';
+
+  @override
+  String get couldNotLoadProfile => 'Could not load profile';
 }

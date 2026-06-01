@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/exam_provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/supabase_provider.dart';
@@ -21,10 +22,11 @@ class _ExamResultScreenState extends ConsumerState<ExamResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final examAsync = ref.watch(examProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Results')),
+      appBar: AppBar(title: Text(l.resultsTitle)),
       body: examAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Error: $e')),
@@ -80,7 +82,7 @@ class _ExamResultScreenState extends ConsumerState<ExamResultScreen> {
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () => context.go('/app/home'),
-                        child: const Text('Go Home'),
+                        child: Text(l.goHome),
                       ),
                       const SizedBox(height: 8),
                       OutlinedButton(
@@ -88,14 +90,14 @@ class _ExamResultScreenState extends ConsumerState<ExamResultScreen> {
                           ref.read(examProvider.notifier).startExam();
                           context.pushReplacement('/app/exam/session');
                         },
-                        child: const Text('Try Again'),
+                        child: Text(l.tryAgain),
                       ),
                       const SizedBox(height: 24),
                       const Divider(),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Text(
-                          'By Category',
+                          l.examByCategory,
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
@@ -106,7 +108,7 @@ class _ExamResultScreenState extends ConsumerState<ExamResultScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: Text(
-                          'Review',
+                          l.examReview,
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),

@@ -7,6 +7,7 @@ import 'package:cleared_driving/data/local/models/progress_event.dart';
 import 'package:cleared_driving/data/local/models/user_cache.dart';
 import 'package:cleared_driving/domain/models/driving_lesson.dart';
 import 'package:cleared_driving/features/learn/screens/category_list_screen.dart';
+import 'package:cleared_driving/l10n/app_localizations.dart';
 import 'package:cleared_driving/providers/lessons_provider.dart';
 
 void main() {
@@ -32,7 +33,11 @@ void main() {
         overrides: [
           lessonsProvider.overrideWith((_) => Future.value(<DrivingLesson>[])),
         ],
-        child: const MaterialApp(home: CategoryListScreen()),
+        child: const MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: CategoryListScreen(),
+        ),
       ),
     );
     await tester.pumpAndSettle();

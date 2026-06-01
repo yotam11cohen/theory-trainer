@@ -46,5 +46,56 @@
   "achievementsTitle": "Achievements",
   "errorGeneric": "Something went wrong. Please try again.",
   "loading": "Loading...",
-  "homeTitle": "Dashboard"
+  "homeTitle": "Dashboard",
+  "learnTitle": "Learn",
+  "profileTitle": "Profile",
+  "resultsTitle": "Results",
+  "lessonTitle": "Lesson",
+  "categoriesTitle": "Categories",
+  "lessonsDone": "{count} lessons done",
+  "@lessonsDone": { "placeholders": { "count": { "type": "int" } } },
+  "pctComplete": "{pct}% complete",
+  "@pctComplete": { "placeholders": { "pct": { "type": "int" } } },
+  "takeExam": "Take the Exam →",
+  "continueLesson": "Continue: {category} — {lesson}",
+  "@continueLesson": {
+    "placeholders": {
+      "category": { "type": "String" },
+      "lesson": { "type": "String" }
+    }
+  },
+  "examByCategory": "By Category",
+  "examReview": "Review",
+  "goHome": "Go Home",
+  "tryAgain": "Try Again",
+  "leaderboardError": "Could not load leaderboard",
+  "retry": "Retry",
+  "showTutorial": "Show Tutorial",
+  "deleteAccount": "Delete Account",
+  "deleteAccountConfirmTitle": "Delete Account",
+  "deleteAccountConfirmBody": "This will permanently delete your account and all your progress. This cannot be undone.",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "editName": "Edit Name",
+  "displayName": "Display name",
+  "save": "Save",
+  "failedUpdateName": "Failed to update name",
+  "failedDeleteAccount": "Failed to delete account",
+  "failedUpdateNotification": "Failed to update notification preference",
+  "languageLabel": "Language",
+  "noLessons": "No lessons in this category.",
+  "noExercises": "No exercises in this lesson.",
+  "offlineSaved": "Saved offline — will sync when connected",
+  "firstLessonBanner": "Great start! First lesson complete!",
+  "levelUpBanner": "Level up! You are now {title} — {description}",
+  "@levelUpBanner": {
+    "placeholders": {
+      "title": { "type": "String" },
+      "description": { "type": "String" }
+    }
+  },
+  "categoryDoneBanner": "Category complete!",
+  "next": "Next",
+  "finish": "Finish",
+  "couldNotLoadProfile": "Could not load profile"
 }

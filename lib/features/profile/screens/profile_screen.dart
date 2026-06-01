@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/locale_provider.dart';
@@ -15,12 +16,13 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final profileAsync = ref.watch(userProfileProvider);
     final achievementsAsync = ref.watch(achievementsProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: Text(l.profileTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -40,11 +42,11 @@ class ProfileScreen extends ConsumerWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('Could not load profile'),
+                  Text(l.couldNotLoadProfile),
                   const SizedBox(height: 12),
                   ElevatedButton(
                     onPressed: () => ref.invalidate(userProfileProvider),
-                    child: const Text('Retry'),
+                    child: Text(l.retry),
                   ),
                 ],
               ),
@@ -96,7 +98,7 @@ class ProfileScreen extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Study Reminders'),
+                  Text(l.notificationsLabel),
                   Switch(
                     value: profile.notificationsEnabled,
                     onChanged: (val) async {
@@ -110,7 +112,7 @@ class ProfileScreen extends ConsumerWidget {
                       } catch (_) {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Failed to update notification preference')),
+                            SnackBar(content: Text(l.failedUpdateNotification)),
                           );
                         }
                       }
@@ -122,7 +124,7 @@ class ProfileScreen extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Language / שפה'),
+                  Text(l.languageLabel),
                   SegmentedButton<String>(
                     segments: const [
                       ButtonSegment(value: 'he', label: Text('עברית')),
@@ -138,7 +140,7 @@ class ProfileScreen extends ConsumerWidget {
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.help_outline),
-                title: const Text('Show Tutorial'),
+                title: Text(l.showTutorial),
                 onTap: () async {
                   await HiveService.resetOnboarding();
                   showOnboardingNotifier.value = true;
@@ -149,12 +151,12 @@ class ProfileScreen extends ConsumerWidget {
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: const Icon(Icons.delete_outline, color: Colors.red),
-                title: const Text('Delete Account',
-                    style: TextStyle(color: Colors.red)),
+                title: Text(l.deleteAccount,
+                    style: const TextStyle(color: Colors.red)),
                 onTap: () => _confirmDeleteAccount(context, ref),
               ),
               const SizedBox(height: 16),
-              Text('Achievements',
+              Text(l.achievementsTitle,
                   style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 12),
               achievementsAsync.when(
@@ -177,23 +179,24 @@ class ProfileScreen extends ConsumerWidget {
 
   Future<void> _editDisplayName(
       BuildContext context, WidgetRef ref, String current) async {
+    final l = AppLocalizations.of(context)!;
     final controller = TextEditingController(text: current);
     final newName = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Edit Name'),
+        title: Text(l.editName),
         content: TextField(
           controller: controller,
           autofocus: true,
-          decoration: const InputDecoration(labelText: 'Display name'),
+          decoration: InputDecoration(labelText: l.displayName),
         ),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(ctx),
-              child: const Text('Cancel')),
+              child: Text(l.cancel)),
           TextButton(
               onPressed: () => Navigator.pop(ctx, controller.text.trim()),
-              child: const Text('Save')),
+              child: Text(l.save)),
         ],
       ),
     );
@@ -207,8 +210,9 @@ class ProfileScreen extends ConsumerWidget {
       ref.invalidate(userProfileProvider);
     } catch (_) {
       if (context.mounted) {
+        final l2 = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to update name')),
+          SnackBar(content: Text(l2.failedUpdateName)),
         );
       }
     }
@@ -216,20 +220,20 @@ class ProfileScreen extends ConsumerWidget {
 
   Future<void> _confirmDeleteAccount(
       BuildContext context, WidgetRef ref) async {
+    final l = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Delete Account'),
-        content: const Text(
-            'This will permanently delete your account and all your progress. This cannot be undone.'),
+        title: Text(l.deleteAccountConfirmTitle),
+        content: Text(l.deleteAccountConfirmBody),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('Cancel')),
+              child: Text(l.cancel)),
           TextButton(
               onPressed: () => Navigator.pop(ctx, true),
-              child: const Text('Delete',
-                  style: TextStyle(color: Colors.red))),
+              child: Text(l.delete,
+                  style: const TextStyle(color: Colors.red))),
         ],
       ),
     );
@@ -241,8 +245,9 @@ class ProfileScreen extends ConsumerWidget {
       if (context.mounted) context.go('/login');
     } catch (_) {
       if (context.mounted) {
+        final l2 = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to delete account')),
+          SnackBar(content: Text(l2.failedDeleteAccount)),
         );
       }
     }

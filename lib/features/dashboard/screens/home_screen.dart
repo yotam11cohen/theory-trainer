@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/lessons_provider.dart';
 import '../../../providers/auth_provider.dart';
@@ -58,6 +59,7 @@ class HomeScreen extends ConsumerWidget {
     Set<String> completed, {
     WidgetRef? ref,
   }) {
+    final l = AppLocalizations.of(context)!;
     final total = lessons.length;
     final doneCount = completed.length.clamp(0, total == 0 ? 0 : total);
     final pct = total == 0 ? 0 : ((doneCount / total) * 100).round();
@@ -83,9 +85,9 @@ class HomeScreen extends ConsumerWidget {
         // Summary stats row
         Row(
           children: [
-            _StatChip(label: '$doneCount lessons done', icon: Icons.check_circle_outline),
+            _StatChip(label: l.lessonsDone(doneCount), icon: Icons.check_circle_outline),
             const SizedBox(width: 8),
-            _StatChip(label: '$pct% complete', icon: Icons.bar_chart),
+            _StatChip(label: l.pctComplete(pct), icon: Icons.bar_chart),
             const SizedBox(width: 8),
             _StatChip(label: 'Lv${profile.level} $title', icon: Icons.star_outline),
           ],
@@ -93,11 +95,11 @@ class HomeScreen extends ConsumerWidget {
         const SizedBox(height: 24),
 
         // Category breakdown
-        Text('Categories', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+        Text(l.categoriesTitle, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
         ...AppConstants.categories.map((cat) {
-          final catLessons = lessons.where((l) => l.category == cat.slug).toList();
-          final catDone = catLessons.where((l) => completed.contains(l.id)).length;
+          final catLessons = lessons.where((lesson) => lesson.category == cat.slug).toList();
+          final catDone = catLessons.where((lesson) => completed.contains(lesson.id)).length;
           final catTotal = catLessons.length;
           final catProgress = catTotal == 0 ? 0.0 : catDone / catTotal;
           return Padding(
@@ -144,8 +146,8 @@ class HomeScreen extends ConsumerWidget {
             icon: Icon(allDone ? Icons.quiz_outlined : Icons.play_arrow),
             label: Text(
               allDone
-                  ? 'Take the Exam →'
-                  : 'Continue: ${_categoryName(nextLesson.category)} — ${nextLesson.title}',
+                  ? l.takeExam
+                  : l.continueLesson(_categoryName(nextLesson.category), nextLesson.title),
               overflow: TextOverflow.ellipsis,
             ),
           ),

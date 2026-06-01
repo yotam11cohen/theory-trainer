@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../constants.dart';
 import '../../../data/local/hive_service.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/lessons_provider.dart';
 
 class CategoryListScreen extends ConsumerWidget {
@@ -10,11 +11,12 @@ class CategoryListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final lessonsAsync = ref.watch(lessonsProvider);
     final completed = HiveService.getCompletedLessonIds();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Learn')),
+      appBar: AppBar(title: Text(l.learnTitle)),
       body: lessonsAsync.when(
         loading: () => ListView(
           children: AppConstants.categories

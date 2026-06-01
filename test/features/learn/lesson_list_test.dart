@@ -7,6 +7,7 @@ import 'package:cleared_driving/data/local/models/progress_event.dart';
 import 'package:cleared_driving/data/local/models/user_cache.dart';
 import 'package:cleared_driving/domain/models/driving_lesson.dart';
 import 'package:cleared_driving/features/learn/screens/lesson_list_screen.dart';
+import 'package:cleared_driving/l10n/app_localizations.dart';
 import 'package:cleared_driving/providers/lessons_provider.dart';
 
 DrivingLesson _lesson(String id, int orderIndex) => DrivingLesson(
@@ -23,6 +24,8 @@ Widget _wrap(List<DrivingLesson> lessons) => ProviderScope(
         lessonsProvider.overrideWith((_) => Future.value(lessons)),
       ],
       child: const MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: LessonListScreen(category: 'signs'),
       ),
     );

@@ -10,21 +10,22 @@ class LeaderboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final leaderboardAsync = ref.watch(leaderboardProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.tabLeaderboard)),
+      appBar: AppBar(title: Text(l.tabLeaderboard)),
       body: leaderboardAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (_, __) => Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Could not load leaderboard'),
+              Text(l.leaderboardError),
               const SizedBox(height: 12),
               ElevatedButton(
                 onPressed: () => ref.invalidate(leaderboardProvider),
-                child: const Text('Retry'),
+                child: Text(l.retry),
               ),
             ],
           ),
